@@ -1,0 +1,11 @@
+# Laravel-related
+admin/adminecom/vendor/
+admin/adminecom/.env
+
+# React-related
+user/ecom/node_modules/
+user/ecom/build/
+
+# General
+.DS_Store
+.env
