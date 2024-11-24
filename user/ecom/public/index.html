@@ -24,6 +24,18 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <title>React App</title>
+    <script
+      src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+      defer
+    ></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function (OneSignal) {
+        await OneSignal.init({
+          appId: "4c2c5e6a-8186-4bd2-8bd1-c4b4889ce07d",
+        });
+      });
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
