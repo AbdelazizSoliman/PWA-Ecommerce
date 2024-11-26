@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import Slider from "./Slider";
 import MegaMenu from "./MegaMenu";
+import HomeSlider from "./HomeSlider";
 class HomeTop extends Component {
   render() {
     return (
@@ -12,7 +12,7 @@ class HomeTop extends Component {
               <MegaMenu />
             </Col>
             <Col lg={9} md={9} sm={12}>
-              <Slider />
+              <HomeSlider />
             </Col>
           </Row>
         </Container>
