@@ -7,6 +7,13 @@
   font-weight: 400;
 }
 
+.section-title-contact {
+  font-size: 18px;
+  font-family: "Roboto Condensed", sans-serif;
+  color: #051b35;
+  font-weight: 400;
+}
+
 .section-title-login {
   margin-top: 50px;
   margin-bottom: 10px;
