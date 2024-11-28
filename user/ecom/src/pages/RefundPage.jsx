@@ -3,12 +3,11 @@ import FooterDesktop from "../components/common/FooterDesktop";
 import FooterMobile from "../components/common/FooterMobile";
 import NavMenuDesktop from "../components/common/NavMenuDesktop";
 import NavMenuMobile from "../components/common/NavMenuMobile";
-import UserLogin from "../components/common/UserLogin";
-class UserLoginPage extends Component {
+import Refund from "../components/others/Refund";
+class RefundPage extends Component {
   componentDidMount() {
     window.scroll(0, 0);
   }
-
   render() {
     return (
       <Fragment>
@@ -18,7 +17,7 @@ class UserLoginPage extends Component {
         <div className="Mobile">
           <NavMenuMobile />
         </div>
-        <UserLogin />
+        <Refund />
 
         <div className="Desktop">
           <FooterDesktop />
@@ -30,4 +29,4 @@ class UserLoginPage extends Component {
     );
   }
 }
-export default UserLoginPage;
+export default RefundPage;
