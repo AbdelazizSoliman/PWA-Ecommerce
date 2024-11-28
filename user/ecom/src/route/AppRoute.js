@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from '../pages/HomePage'
 import UserLoginPage from '../pages/UserLoginPage'
 import ContactPage from '../pages/ContactPage'
-import Purchase from '../components/others/Purchase'
-import Privacy from '../components/others/Privacy'
-import Refund from '../components/others/Refund'
+import PurchasePage from '../pages/PurchasePage'
+import PrivacyPage from '../pages/PrivacyPage'
+import RefundPage from '../pages/RefundPage'
 
 
 class AppRoute extends Component {
@@ -16,9 +16,9 @@ class AppRoute extends Component {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/login" element={<UserLoginPage />} />
                     <Route path="/contact" element={<ContactPage />} />
-                    <Route path="/purchase" element={<Purchase />} />
-                    <Route path="/privacy" element={<Privacy />} />
-                    <Route path="/refund" element={<Refund />} />
+                    <Route path="/purchase" element={<PurchasePage />} />
+                    <Route path="/privacy" element={<PrivacyPage />} />
+                    <Route path="/refund" element={<RefundPage />} />
                 </Routes>
             </Fragment>
         )
