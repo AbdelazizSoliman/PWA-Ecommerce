@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import AppURL from "../../api/AppURL";
 import axios from "axios";
-import parse from "react-html-parser";
+import parse from "html-react-parser";
 
 class Refund extends Component {
   constructor() {
