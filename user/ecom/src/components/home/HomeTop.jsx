@@ -7,27 +7,38 @@ import axios from "axios";
 
 const HomeTop = () => {
   const [menuData, setMenuData] = useState([]);
+  const [sliderData, setSliderData] = useState([]);
 
   useEffect(() => {
-    // Fetch category data when the component mounts
+    // Fetch category data
     axios
       .get(AppURL.AllCategoryDetails)
       .then((response) => {
-        setMenuData(response.data); // Set the data in state
+        setMenuData(response.data);
       })
       .catch((error) => {
         console.error("Error fetching category data:", error);
       });
-  }, []); // Empty dependency array ensures this runs only once
+
+    // Fetch slider data
+    axios
+      .get(AppURL.AllSlider)
+      .then((response) => {
+        setSliderData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching slider data:", error);
+      });
+  }, []);
 
   return (
-    <Container className="p-0 m-0 overflow-hidden" fluid={true}>
+    <Container className="p-0 m-0 overflow-hidden" fluid>
       <Row>
         <Col lg={3} md={3} sm={12}>
           <MegaMenu data={menuData} />
         </Col>
         <Col lg={9} md={9} sm={12}>
-          <HomeSlider />
+          <HomeSlider data={sliderData} />
         </Col>
       </Row>
     </Container>
