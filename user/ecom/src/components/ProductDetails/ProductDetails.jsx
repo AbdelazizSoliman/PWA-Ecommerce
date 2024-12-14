@@ -1,251 +1,186 @@
-import React, { Component, Fragment } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import Product1 from "../../assets/images/products/product1.png";
-import Product2 from "../../assets/images/products/product2.png";
-import Product3 from "../../assets/images/products/product3.png";
-import Product4 from "../../assets/images/products/product4.png";
-class ProductDetails extends Component {
-  render() {
-    return (
-      <Fragment>
-        <Container fluid={true} className="BetweenTwoSection">
-          <Row className="p-2">
-            <Col
-              className="shadow-sm bg-white pb-3 mt-4"
-              md={12}
-              lg={12}
-              sm={12}
-              xs={12}
-            >
-              <Row>
-                <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
-                  <img className="w-100" src={Product1} />
-                  <Container className="my-3">
-                    <Row>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product1} />
-                      </Col>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product2} />
-                      </Col>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product3} />
-                      </Col>
-                      <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                        <img className="w-100" src={Product4} />
-                      </Col>
-                    </Row>
-                  </Container>
-                </Col>
-                <Col className="p-3 " md={6} lg={6} sm={12} xs={12}>
-                  <h5 className="Product-Name">
-                    ASUS TUF A15 FA506IU Ryzen 7 4800H GTX
-                  </h5>
-                  <h6 className="section-sub-title">
-                    Some Of Our Exclusive Collection, You May Like Some Of Our
-                    Exclusive Collectio
-                  </h6>
-                  <div className="input-group">
-                    <div className="Product-price-card d-inline ">
-                      Reguler Price 200
-                    </div>
-                    <div className="Product-price-card d-inline ">
-                      50% Discount
-                    </div>
-                    <div className="Product-price-card d-inline ">
-                      New Price 100
-                    </div>
+import React, { Fragment, useState } from "react";
+import { Container, Row, Col, Form } from "react-bootstrap";
+import ReactDOM from "react-dom";
+
+const ProductDetails = ({ data }) => {
+  const [previewImg, setPreviewImg] = useState(
+    data.productDetails[0].image_one
+  );
+
+  const imgOnClick = (event) => {
+    const imgSrc = event.target.getAttribute("src");
+    setPreviewImg(imgSrc);
+  };
+
+  const PriceOption = (price, specialPrice) => {
+    if (specialPrice === "na") {
+      return <p className="product-price-on-card"> Price: ${price} </p>;
+    } else {
+      return (
+        <p className="product-price-on-card">
+          Price: <strike className="text-secondary">${price}</strike> $
+          {specialPrice}
+        </p>
+      );
+    }
+  };
+
+  const productData = data.productList[0];
+  const productDetails = data.productDetails[0];
+
+  const {
+    title,
+    brand,
+    category,
+    subcategory,
+    price,
+    special_price: specialPrice,
+    product_code: productCode,
+    short_description: shortDescription,
+    long_description: longDescription,
+  } = productData;
+
+  const { image_one, image_two, image_three, image_four, color, size } =
+    productDetails;
+
+  const renderOptions = (options) =>
+    options.split(",").map((option, i) => (
+      <option key={i} value={option.trim()}>
+        {option.trim()}
+      </option>
+    ));
+
+  return (
+    <Fragment>
+      <Container fluid className="BetweenTwoSection">
+        <Row className="p-2">
+          <Col className="shadow-sm bg-white pb-3 mt-4" md={12}>
+            <Row>
+              {/* Image Section */}
+              <Col className="p-3" md={6}>
+                <img
+                  id="previewImg"
+                  className="bigimage"
+                  src={previewImg}
+                  alt="Product Preview"
+                />
+                <Container className="my-3">
+                  <Row>
+                    {[image_one, image_two, image_three, image_four].map(
+                      (img, i) => (
+                        <Col className="p-0 m-0" md={3} key={i}>
+                          <img
+                            onClick={imgOnClick}
+                            className="w-100 smallimage product-sm-img"
+                            src={img}
+                            alt={`Thumbnail ${i + 1}`}
+                          />
+                        </Col>
+                      )
+                    )}
+                  </Row>
+                </Container>
+              </Col>
+
+              {/* Details Section */}
+              <Col className="p-3" md={6}>
+                <h5 className="Product-Name">{title}</h5>
+                <h6 className="section-sub-title">{shortDescription}</h6>
+
+                {PriceOption(price, specialPrice)}
+                <h6 className="mt-2">
+                  Category: <b>{category}</b>
+                </h6>
+                <h6 className="mt-2">
+                  SubCategory: <b>{subcategory}</b>
+                </h6>
+                <h6 className="mt-2">
+                  Brand: <b>{brand}</b>
+                </h6>
+                <h6 className="mt-2">
+                  Product Code: <b>{productCode}</b>
+                </h6>
+
+                {/* Color Options */}
+                {color !== "na" && (
+                  <div>
+                    <h6 className="mt-2">Choose Color</h6>
+                    <Form.Select>
+                      <option>Choose Color</option>
+                      {renderOptions(color)}
+                    </Form.Select>
                   </div>
-                  <h6 className="mt-2">Choose Color</h6>
-                  <div className="input-group">
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="option1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        Black
-                      </label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="option1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        Green
-                      </label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="option1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        Red
-                      </label>
-                    </div>
+                )}
+
+                {/* Size Options */}
+                {size !== "na" && (
+                  <div>
+                    <h6 className="mt-2">Choose Size</h6>
+                    <Form.Select>
+                      <option>Choose Size</option>
+                      {renderOptions(size)}
+                    </Form.Select>
                   </div>
-                  <h6 className="mt-2">Choose Size</h6>
-                  <div className="input-group">
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="option1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        X
-                      </label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="option1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        XX
-                      </label>
-                    </div>
-                    <div className="form-check mx-1">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        value="option1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        XXXX
-                      </label>
-                    </div>
+                )}
+
+                {/* Quantity Selection */}
+                <div>
+                  <h6 className="mt-2">Choose Quantity</h6>
+                  <Form.Select>
+                    <option>Choose Quantity</option>
+                    {Array.from({ length: 10 }, (_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {i + 1}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="input-group mt-3">
+                  <button className="btn site-btn m-1">
+                    <i className="fa fa-shopping-cart"></i> Add To Cart
+                  </button>
+                  <button className="btn btn-primary m-1">
+                    <i className="fa fa-car"></i> Order Now
+                  </button>
+                  <button className="btn btn-primary m-1">
+                    <i className="fa fa-heart"></i> Favourite
+                  </button>
+                </div>
+              </Col>
+            </Row>
+
+            {/* Additional Details */}
+            <Row>
+              <Col md={6}>
+                <h6 className="mt-2">DETAILS</h6>
+                <p>{longDescription}</p>
+              </Col>
+              <Col md={6}>
+                <h6 className="mt-2">REVIEWS</h6>
+                {[1, 2, 3].map((review, i) => (
+                  <div key={i}>
+                    <p className="p-0 m-0">
+                      <span className="Review-Title">Aziz Soliman</span>
+                      <span className="text-success">
+                        {[...Array(4)].map((_, j) => (
+                          <i key={j} className="fa fa-star"></i>
+                        ))}
+                      </span>
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                    </p>
                   </div>
-                  <h6 className="mt-2">Quantity</h6>
-                  <input
-                    className="form-control text-center w-50"
-                    type="number"
-                  />
-                  <div className="input-group mt-3">
-                    <button className="btn site-btn m-1 ">
-                      {" "}
-                      <i className="fa fa-shopping-cart"></i> Add To Cart
-                    </button>
-                    <button className="btn btn-primary m-1">
-                      {" "}
-                      <i className="fa fa-car"></i> Order Now
-                    </button>
-                    <button className="btn btn-primary m-1">
-                      {" "}
-                      <i className="fa fa-heart"></i> Favourite
-                    </button>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col className="" md={6} lg={6} sm={12} xs={12}>
-                  <h6 className="mt-2">DETAILS</h6>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                    quis nostrud exerci tation Lorem ipsum dolor sit amet,
-                    consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                    tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
-                    wisi enim ad minim veniam, quis nostrud exerci tation
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                    quis nostrud exerci tation Lorem ipsum dolor sit amet,
-                    consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                    tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
-                    wisi enim ad minim veniam, quis nostrud exerci tation
-                  </p>
-                </Col>
-                <Col className="" md={6} lg={6} sm={12} xs={12}>
-                  <h6 className="mt-2">REVIEWS</h6>
-                  <p className=" p-0 m-0">
-                    <span className="Review-Title">Aziz Soliman</span>{" "}
-                    <span className="text-success">
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                    </span>{" "}
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                    magna aliquam erat volutpat.
-                  </p>
-                  <p className=" p-0 m-0">
-                    <span className="Review-Title">Aziz Soliman</span>{" "}
-                    <span className="text-success">
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                    </span>{" "}
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                    magna aliquam erat volutpat.
-                  </p>
-                  <p className=" p-0 m-0">
-                    <span className="Review-Title">Aziz Soliman</span>{" "}
-                    <span className="text-success">
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                      <i className="fa fa-star"></i>{" "}
-                    </span>{" "}
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                    magna aliquam erat volutpat.
-                  </p>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </Fragment>
-    );
-  }
-}
+                ))}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </Fragment>
+  );
+};
+
 export default ProductDetails;

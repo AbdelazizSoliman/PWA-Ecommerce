@@ -5,15 +5,19 @@ import { Link } from "react-router-dom";
 
 const MegaMenuAll = () => {
   const [menuData, setMenuData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get(AppURL.AllCategoryDetails)
       .then((response) => {
-        setMenuData(response.data);
+        console.log("API Response:", response.data); // Debugging
+        setMenuData(response.data || []); // Ensure data is set correctly
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching categories:", error);
+        setIsLoading(false);
       });
   }, []);
 
@@ -27,37 +31,44 @@ const MegaMenuAll = () => {
     }
   };
 
-  const renderMenuItems = () =>
-    menuData.map((category, index) => (
-      <div key={index}>
-        <button onClick={handleMenuItemClick} className="accordionAll">
-          <img
-            className="accordionMenuIconAll"
-            src={category.category_image}
-            alt={category.category_name}
-          />
-          &nbsp; {category.category_name}
-        </button>
-        <div className="panelAll">
-          <ul>
-            {category.subcategory_name.map((subcategory, subIndex) => (
-              <li key={subIndex}>
-                <Link
-                  to={`/productsubcategory/${category.category_name}/${subcategory.subcategory_name}`}
-                  className="accordionItem"
-                >
-                  {subcategory.subcategory_name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    ));
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="accordionMenuDivAll">
-      <div className="accordionMenuDivInsideAll">{renderMenuItems()}</div>
+      <div className="accordionMenuDivInsideAll">
+        {menuData &&
+          Array.isArray(menuData) &&
+          menuData.map((category, index) => (
+            <div key={index}>
+              <button onClick={handleMenuItemClick} className="accordionAll">
+                <img
+                  className="accordionMenuIconAll"
+                  src={category.category_image}
+                  alt={category.category_name}
+                />
+                &nbsp; {category.category_name}
+              </button>
+              <div className="panelAll">
+                <ul>
+                  {category.subcategory_name?.map((subcategory, subIndex) => (
+                    <li key={subIndex}>
+                      <Link
+                        to={`/productsubcategory/${encodeURIComponent(
+                          category.category_name
+                        )}/${encodeURIComponent(subcategory.subcategory_name)}`}
+                        className="accordionItem"
+                      >
+                        {subcategory.subcategory_name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

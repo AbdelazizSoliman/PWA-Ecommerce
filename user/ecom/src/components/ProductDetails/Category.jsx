@@ -1,42 +1,41 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { Fragment } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Category = ({ ProductData, Category }) => {
+  const renderProductCard = (product) => {
+    const { id, image, title, price, special_price: specialPrice } = product;
+
+    return (
+      <Col className="p-0" xl={3} lg={3} md={3} sm={6} xs={6} key={id}>
+        <Link className="text-link" to={`/productdetails/${id}`}>
+          <Card className="image-box card w-100">
+            <img className="center w-75" src={image} alt={title} />
+            <Card.Body>
+              <p className="product-name-on-card">{title}</p>
+              {specialPrice === "na" ? (
+                <p className="product-price-on-card">Price: ${price}</p>
+              ) : (
+                <p className="product-price-on-card">
+                  Price: <strike className="text-secondary">${price}</strike> $
+                  {specialPrice}
+                </p>
+              )}
+            </Card.Body>
+          </Card>
+        </Link>
+      </Col>
+    );
+  };
+
   return (
     <Fragment>
-      <Container className="text-center" fluid={true}>
+      <Container className="text-center" fluid>
         <div className="section-title text-center mb-55">
           <h2>{Category}</h2>
         </div>
-        <Row>
-          {ProductData.map((product, index) => (
-            <Col className="p-0" xl={3} lg={3} md={3} sm={6} xs={6} key={index}>
-              <Card className="image-box card w-100">
-                <img
-                  className="center w-75"
-                  src={product.image}
-                  alt={product.title}
-                />
-                <Card.Body>
-                  <p className="product-name-on-card">{product.title}</p>
-                  {product.special_price !== "na" ? (
-                    <p className="product-price-on-card">
-                      Price:{" "}
-                      <strike className="text-secondary">
-                        ${product.price}
-                      </strike>{" "}
-                      ${product.special_price}
-                    </p>
-                  ) : (
-                    <p className="product-price-on-card">
-                      Price: ${product.price}
-                    </p>
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <Row>{ProductData.map(renderProductCard)}</Row>
       </Container>
     </Fragment>
   );

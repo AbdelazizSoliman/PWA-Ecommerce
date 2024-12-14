@@ -1,43 +1,43 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import AppURL from "../../api/AppURL";
 import axios from "axios";
+import AppURL from "../../api/AppURL";
 import FeaturedLoading from "../PlaceHolder/FeaturedLoading";
 
 const FeaturedProducts = () => {
   const [productData, setProductData] = useState([]);
-  const [isLoading, setIsLoading] = useState("");
-  const [mainDiv, setMainDiv] = useState("d-none");
+  const [isLoading, setIsLoading] = useState(true);
+  const [mainDivVisible, setMainDivVisible] = useState(false);
 
   useEffect(() => {
     axios
       .get(AppURL.ProductListByRemark("FEATURED"))
       .then((response) => {
         setProductData(response.data);
-        setIsLoading("d-none");
-        setMainDiv("");
+        setIsLoading(false);
+        setMainDivVisible(true);
       })
       .catch((error) => {
         console.error("Error fetching featured products:", error);
       });
   }, []);
 
-  const MyView = productData.map((product, i) => {
+  const renderProductCard = (product) => {
+    const { id, image, title, price, special_price } = product;
     return (
-      <Col className="p-1" key={i} xl={2} lg={2} md={2} sm={4} xs={6}>
-        <Link to="/productdetails">
+      <Col key={id} className="p-1" xl={2} lg={2} md={2} sm={4} xs={6}>
+        <Link className="text-link" to={`/productdetails/${id}`}>
           <Card className="image-box card">
-            <img className="center" src={product.image} alt={product.title} />
+            <img className="center" src={image} alt={title} />
             <Card.Body>
-              <p className="product-name-on-card">{product.title}</p>
-              {product.special_price === "na" ? (
-                <p className="product-price-on-card">Price: ${product.price}</p>
+              <p className="product-name-on-card">{title}</p>
+              {special_price === "na" ? (
+                <p className="product-price-on-card">Price: ${price}</p>
               ) : (
                 <p className="product-price-on-card">
-                  Price:{" "}
-                  <strike className="text-secondary">${product.price}</strike> $
-                  {product.special_price}
+                  Price: <strike className="text-secondary">${price}</strike> $
+                  {special_price}
                 </p>
               )}
             </Card.Body>
@@ -45,21 +45,26 @@ const FeaturedProducts = () => {
         </Link>
       </Col>
     );
-  });
+  };
 
   return (
-    <Fragment>
-      <FeaturedLoading isLoading={isLoading} />
-      <div className={mainDiv}>
-        <Container className="text-center" fluid>
-          <div className="section-title text-center mb-55">
-            <h2>FEATURED PRODUCT</h2>
-            <p>Some Of Our Exclusive Collection, You May Like</p>
-          </div>
-          <Row>{MyView}</Row>
-        </Container>
-      </div>
-    </Fragment>
+    <>
+      {/* Loading spinner */}
+      <FeaturedLoading isLoading={isLoading ? "" : "d-none"} />
+
+      {/* Main content */}
+      {mainDivVisible && (
+        <div>
+          <Container className="text-center" fluid>
+            <div className="section-title text-center mb-55">
+              <h2>FEATURED PRODUCT</h2>
+              <p>Some Of Our Exclusive Collection, You May Like</p>
+            </div>
+            <Row>{productData.map(renderProductCard)}</Row>
+          </Container>
+        </div>
+      )}
+    </>
   );
 };
 
