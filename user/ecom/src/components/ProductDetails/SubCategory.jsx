@@ -1,45 +1,64 @@
 import React from "react";
-import { Fragment } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Breadcrumb } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const SubCategory = ({ ProductData, Category, SubCategory }) => {
-  const renderProductCard = (product) => {
-    const { id, image, title, price, special_price: specialPrice } = product;
+  const MyView = ProductData.map((ProductList, i) => {
+    const { id, image, title, price, special_price } = ProductList;
 
     return (
-      <Col className="p-0" xl={3} lg={3} md={3} sm={6} xs={6} key={id}>
+      <Col key={i} className="p-0" xl={3} lg={3} md={3} sm={6} xs={6}>
         <Link className="text-link" to={`/productdetails/${id}`}>
           <Card className="image-box card w-100">
             <img className="center w-75" src={image} alt={title} />
             <Card.Body>
               <p className="product-name-on-card">{title}</p>
-              {specialPrice === "na" ? (
-                <p className="product-price-on-card">Price: ${price}</p>
-              ) : (
-                <p className="product-price-on-card">
-                  Price: <strike className="text-secondary">${price}</strike> $
-                  {specialPrice}
-                </p>
-              )}
+              <p className="product-price-on-card">
+                Price :
+                {special_price === "na" ? (
+                  `$${price}`
+                ) : (
+                  <>
+                    <strike className="text-secondary">${price}</strike> $
+                    {special_price}
+                  </>
+                )}
+              </p>
             </Card.Body>
           </Card>
         </Link>
       </Col>
     );
-  };
+  });
 
   return (
-    <Fragment>
-      <Container className="text-center" fluid>
-        <div className="section-title text-center mb-55">
+    <>
+      <Container className="text-center" fluid={true}>
+        <div className="breadbody">
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <Link to="/"> Home </Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to={`/productcategory/${Category}`}>{Category}</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to={`/productsubcategory/${Category}/${SubCategory}`}>
+                {SubCategory}
+              </Link>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+
+        <div className="section-title text-center mb-40 mt-2">
           <h2>
             {Category} / {SubCategory}
           </h2>
         </div>
-        <Row>{ProductData.map(renderProductCard)}</Row>
+
+        <Row>{MyView}</Row>
       </Container>
-    </Fragment>
+    </>
   );
 };
 

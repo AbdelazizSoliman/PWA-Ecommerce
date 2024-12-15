@@ -1,43 +1,62 @@
 import React from "react";
-import { Fragment } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 const Category = ({ ProductData, Category }) => {
-  const renderProductCard = (product) => {
-    const { id, image, title, price, special_price: specialPrice } = product;
+  const MyView = ProductData.map((ProductList, i) => {
+    const isSpecialPrice = ProductList.special_price !== "na";
 
     return (
-      <Col className="p-0" xl={3} lg={3} md={3} sm={6} xs={6} key={id}>
-        <Link className="text-link" to={`/productdetails/${id}`}>
+      <Col className="p-0" xl={3} lg={3} md={3} sm={6} xs={6} key={i}>
+        <Link className="text-link" to={`/productdetails/${ProductList.id}`}>
           <Card className="image-box card w-100">
-            <img className="center w-75" src={image} alt={title} />
+            <img
+              className="center w-75"
+              src={ProductList.image}
+              alt={ProductList.title}
+            />
             <Card.Body>
-              <p className="product-name-on-card">{title}</p>
-              {specialPrice === "na" ? (
-                <p className="product-price-on-card">Price: ${price}</p>
-              ) : (
-                <p className="product-price-on-card">
-                  Price: <strike className="text-secondary">${price}</strike> $
-                  {specialPrice}
-                </p>
-              )}
+              <p className="product-name-on-card">{ProductList.title}</p>
+              <p className="product-price-on-card">
+                Price :
+                {isSpecialPrice ? (
+                  <>
+                    <strike className="text-secondary">
+                      ${ProductList.price}
+                    </strike>{" "}
+                    ${ProductList.special_price}
+                  </>
+                ) : (
+                  `$${ProductList.price}`
+                )}
+              </p>
             </Card.Body>
           </Card>
         </Link>
       </Col>
     );
-  };
+  });
 
   return (
-    <Fragment>
-      <Container className="text-center" fluid>
-        <div className="section-title text-center mb-55">
-          <h2>{Category}</h2>
-        </div>
-        <Row>{ProductData.map(renderProductCard)}</Row>
-      </Container>
-    </Fragment>
+    <Container className="text-center" fluid={true}>
+      <div className="breadbody">
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to="/">Home</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to={`/productcategory/${Category}`}>{Category}</Link>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
+
+      <div className="section-title text-center mb-40 mt-2">
+        <h2>{Category}</h2>
+      </div>
+
+      <Row>{MyView}</Row>
+    </Container>
   );
 };
 
