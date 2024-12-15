@@ -27,6 +27,7 @@ const ProductDetails = ({ data }) => {
 
   const productData = data.productList[0];
   const productDetails = data.productDetails[0];
+  const longDescription = productDetails.long_description;
 
   const {
     title,
@@ -37,7 +38,6 @@ const ProductDetails = ({ data }) => {
     special_price: specialPrice,
     product_code: productCode,
     short_description: shortDescription,
-    long_description: longDescription,
   } = productData;
 
   const { image_one, image_two, image_three, image_four, color, size } =
@@ -155,7 +155,7 @@ const ProductDetails = ({ data }) => {
             <Row>
               <Col md={6}>
                 <h6 className="mt-2">DETAILS</h6>
-                <p>{longDescription}</p>
+                {longDescription}
               </Col>
               <Col md={6}>
                 <h6 className="mt-2">REVIEWS</h6>
