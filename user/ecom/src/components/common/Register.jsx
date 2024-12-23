@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LoginImage from "../../assets/images/login.png";
 
-const UserLogin = () => {
+const Register = () => {
   return (
     <Fragment>
       <Container>
@@ -13,8 +13,13 @@ const UserLogin = () => {
               {/* Form Section */}
               <Col className="d-flex justify-content-center" md={6}>
                 <Form className="onboardForm">
-                  <h4 className="section-title-login">USER SIGN IN</h4>
+                  <h4 className="section-title-login">USER REGISTER</h4>
 
+                  <Form.Control
+                    className="m-2"
+                    type="text"
+                    placeholder="Enter Your Name"
+                  />
                   <Form.Control
                     className="m-2"
                     type="email"
@@ -25,24 +30,28 @@ const UserLogin = () => {
                     type="password"
                     placeholder="Enter Your Password"
                   />
+                  <Form.Control
+                    className="m-2"
+                    type="password"
+                    placeholder="Confirm Your Password"
+                  />
 
                   <Button className="btn btn-block m-2 site-btn-login">
-                    Login
+                    Sign Up
                   </Button>
-
                   <hr />
 
                   <p>
-                    <b>Forget My Password?</b>{" "}
+                    <b>Forget My Password? </b>
                     <Link to="/forget">
                       <b>Forget Password</b>
                     </Link>
                   </p>
 
                   <p>
-                    <b>Don't Have An Account?</b>{" "}
-                    <Link to="/register">
-                      <b>Register</b>
+                    <b>Already Have An Account? </b>
+                    <Link to="/login">
+                      <b>Login</b>
                     </Link>
                   </p>
                 </Form>
@@ -53,7 +62,7 @@ const UserLogin = () => {
                 <img
                   className="onboardBanner"
                   src={LoginImage}
-                  alt="User Login"
+                  alt="User Registration"
                 />
               </Col>
             </Row>
@@ -64,4 +73,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default Register;

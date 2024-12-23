@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import LoginImage from "../../assets/images/login.png";
+import ForgetImage from "../../assets/images/forget.jpg";
 
-const UserLogin = () => {
+const ForgetPassword = () => {
   return (
     <Fragment>
       <Container>
@@ -13,38 +13,15 @@ const UserLogin = () => {
               {/* Form Section */}
               <Col className="d-flex justify-content-center" md={6}>
                 <Form className="onboardForm">
-                  <h4 className="section-title-login">USER SIGN IN</h4>
-
+                  <h4 className="section-title-login">FORGET PASSWORD?</h4>
                   <Form.Control
-                    className="m-2"
                     type="email"
                     placeholder="Enter Your Email"
-                  />
-                  <Form.Control
                     className="m-2"
-                    type="password"
-                    placeholder="Enter Your Password"
                   />
-
                   <Button className="btn btn-block m-2 site-btn-login">
-                    Login
+                    Reset Password
                   </Button>
-
-                  <hr />
-
-                  <p>
-                    <b>Forget My Password?</b>{" "}
-                    <Link to="/forget">
-                      <b>Forget Password</b>
-                    </Link>
-                  </p>
-
-                  <p>
-                    <b>Don't Have An Account?</b>{" "}
-                    <Link to="/register">
-                      <b>Register</b>
-                    </Link>
-                  </p>
                 </Form>
               </Col>
 
@@ -52,8 +29,8 @@ const UserLogin = () => {
               <Col className="p-0 Desktop m-0" md={6}>
                 <img
                   className="onboardBanner"
-                  src={LoginImage}
-                  alt="User Login"
+                  src={ForgetImage}
+                  alt="Forget Password"
                 />
               </Col>
             </Row>
@@ -64,4 +41,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default ForgetPassword;

@@ -94,11 +94,13 @@ const NavMenuDesktop = () => {
                     <span className="badge text-white bg-danger">5</span>
                   </sup>
                 </Link>
-                <a className="btn" href="#!">
-                  <i className="fa h4 fa-mobile-alt"></i>
-                </a>
+
                 <Link to="/login" className="h4 btn">
                   LOGIN
+                </Link>
+
+                <Link to="/register" className="h4 btn">
+                  REGISTER
                 </Link>
 
                 <Link to="/cart" className="cart-btn">
