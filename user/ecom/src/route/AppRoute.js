@@ -13,6 +13,8 @@ import FavouritePage from '../pages/FavouritePage'
 import CartPage from '../pages/CartPage'
 import ProductCategoryPage from '../pages/ProductCategoryPage';
 import ProductSubCategoryPage from '../pages/ProductSubCategoryPage';
+import SearchPage from '../pages/SearchPage';
+
 
 
 
@@ -34,6 +36,7 @@ class AppRoute extends Component {
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/productcategory/:category" element={<ProductCategoryPage />} />
                     <Route path="/productsubcategory/:category/:subcategory" element={<ProductSubCategoryPage />} />
+                    <Route path="/productbysearch/:searchkey" element={<SearchPage />} />
                 </Routes>
             </Fragment>
         )
