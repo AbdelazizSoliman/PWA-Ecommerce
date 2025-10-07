@@ -1,5 +1,6 @@
 class AppURL {
-  static BaseURL = "http://127.0.0.1:8000/api";
+  static BaseURL =
+    import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1";
   static VisitorDetails = this.BaseURL + "/getvisitor";
   static PostContact = this.BaseURL + "/postcontact";
   static AllSiteInfo = this.BaseURL + "/allsiteinfo";
