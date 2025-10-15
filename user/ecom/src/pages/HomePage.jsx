@@ -15,11 +15,15 @@ import axios from "axios";
 class HomePage extends Component {
   componentDidMount() {
     window.scroll(0, 0);
-    this.GetVisitorDetails();
+    this.getVisitorDetails();
   }
 
-  GetVisitorDetails = () => {
-    axios.get(AppURL.VisitorDetails).then().catch();
+  getVisitorDetails = async () => {
+    try {
+      await axios.get(AppURL.VisitorDetails);
+    } catch (error) {
+      console.error("Unable to record visitor details:", error);
+    }
   };
 
   render() {

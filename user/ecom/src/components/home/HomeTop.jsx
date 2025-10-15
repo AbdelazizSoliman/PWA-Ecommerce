@@ -9,37 +9,43 @@ import SliderLoading from "../PlaceHolder/SliderLoading";
 const HomeTop = () => {
   const [menuData, setMenuData] = useState([]);
   const [sliderData, setSliderData] = useState([]);
-  const [isLoading, setIsLoading] = useState("");
-  const [mainDiv, setMainDiv] = useState("d-none");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch menu data
-    axios
-      .get(AppURL.AllCategoryDetails)
-      .then((response) => {
-        setMenuData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching menu data:", error);
-      });
+    let isSubscribed = true;
 
-    // Fetch slider data
-    axios
-      .get(AppURL.AllSlider)
-      .then((response) => {
-        setSliderData(response.data);
-        setIsLoading("d-none");
-        setMainDiv("");
-      })
-      .catch((error) => {
-        console.error("Error fetching slider data:", error);
-      });
+    const loadContent = async () => {
+      try {
+        const [categoriesResponse, sliderResponse] = await Promise.all([
+          axios.get(AppURL.AllCategoryDetails),
+          axios.get(AppURL.AllSlider),
+        ]);
+
+        if (isSubscribed) {
+          setMenuData(categoriesResponse.data);
+          setSliderData(sliderResponse.data);
+        }
+      } catch (error) {
+        console.error("Error fetching home top data:", error);
+      } finally {
+        if (isSubscribed) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadContent();
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   return (
     <Fragment>
-      <SliderLoading isLoading={isLoading} />
-      <div className={mainDiv}>
+      <SliderLoading show={isLoading} />
+
+      {!isLoading && (
         <Container className="p-0 m-0 overflow-hidden" fluid>
           <Row>
             <Col lg={3} md={3} sm={12}>
@@ -50,7 +56,7 @@ const HomeTop = () => {
             </Col>
           </Row>
         </Container>
-      </div>
+      )}
     </Fragment>
   );
 };

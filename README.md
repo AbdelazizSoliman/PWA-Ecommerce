@@ -13,6 +13,7 @@ This repository now contains:
 
    ```bash
    cp backend/.env.example backend/.env
+   cp user/ecom/.env.example user/ecom/.env
    ```
 
 3. Install and set up the Rails API:
@@ -21,6 +22,7 @@ This repository now contains:
    cd backend
    bundle install
    bin/rails db:prepare
+   bin/rails db:seed   # optional demo catalogue
    bin/rails server
    ```
 
@@ -29,7 +31,16 @@ This repository now contains:
    ```bash
    cd user/ecom
    npm install
-   npm run dev
+   npm start
+   ```
+
+   The React app reads `REACT_APP_API_URL` from `.env` to discover the backend. The default points to `http://localhost:3000/api/v1`.
+
+5. (Optional) Run the Rails request specs to validate endpoint parity:
+
+   ```bash
+   cd backend
+   bundle exec rspec
    ```
 
 Detailed deployment and migration notes remain in [`docs/rails_migration_guide.md`](docs/rails_migration_guide.md).
