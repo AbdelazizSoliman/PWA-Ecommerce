@@ -10,7 +10,7 @@ module Api
           visit_date: Time.zone.now.strftime("%d-%m-%Y")
         )
 
-        render json: 1
+        render json: 1, status: :ok
       end
     end
   end

@@ -5,7 +5,7 @@ module Api
     class ContactsController < ApplicationController
       def create
         Contact.create!(contact_params.merge(timestamp_attributes))
-        render json: 1
+        render json: 1, status: :created
       end
 
       private

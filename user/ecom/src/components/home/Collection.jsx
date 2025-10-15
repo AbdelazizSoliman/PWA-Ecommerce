@@ -8,23 +8,23 @@ import CollectionLoading from "../PlaceHolder/CollectionLoading";
 const Collection = () => {
   const [productData, setProductData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [mainDivVisible, setMainDivVisible] = useState(false);
 
   useEffect(() => {
     axios
       .get(AppURL.ProductListByRemark("COLLECTION"))
       .then((response) => {
         setProductData(response.data);
-        setIsLoading(false);
-        setMainDivVisible(true);
       })
       .catch((error) => {
         console.error("Error fetching collection products:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
   const renderProductCard = (product) => {
-    const { id, image, title, price, special_price } = product;
+    const { id, image, title, price, special_price: specialPrice } = product;
     return (
       <Col key={id} className="p-0" xl={3} lg={3} md={3} sm={6} xs={6}>
         <Link className="text-link" to={`/productdetails/${id}`}>
@@ -32,12 +32,11 @@ const Collection = () => {
             <img className="center w-75" src={image} alt={title} />
             <Card.Body>
               <p className="product-name-on-card">{title}</p>
-              {special_price === "na" ? (
+              {specialPrice === "na" ? (
                 <p className="product-price-on-card">Price: ${price}</p>
               ) : (
                 <p className="product-price-on-card">
-                  Price: <strike className="text-secondary">${price}</strike> $
-                  {special_price}
+                  Price: <strike className="text-secondary">${price}</strike> ${specialPrice}
                 </p>
               )}
             </Card.Body>
@@ -49,11 +48,9 @@ const Collection = () => {
 
   return (
     <>
-      {/* Loading spinner */}
-      <CollectionLoading isLoading={isLoading ? "" : "d-none"} />
+      <CollectionLoading show={isLoading} />
 
-      {/* Main collection content */}
-      {mainDivVisible && (
+      {!isLoading && (
         <div>
           <Container className="text-center" fluid>
             <div className="section-title text-center mb-55">

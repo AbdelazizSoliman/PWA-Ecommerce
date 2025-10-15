@@ -28,3 +28,23 @@ bin/rails server
 ```
 
 The Rails application expects a PostgreSQL database. Use `DATABASE_URL` in `.env` locally and configure the same environment variable on Render when deploying.
+
+## Sample data
+
+Run the database seed script to load a curated catalogue, slider assets, and site metadata that match the React storefront expectations:
+
+```bash
+bin/rails db:seed
+```
+
+The seed data is idempotent – it clears existing catalogue tables before inserting the sample records so you can refresh the demo content whenever required.
+
+## Test suite
+
+RSpec request specs cover every public endpoint, ensuring the JSON payloads remain compatible with the frontend. Execute the suite with:
+
+```bash
+bundle exec rspec
+```
+
+Use the tests as living documentation when making backend changes or porting additional features from the legacy Laravel application.

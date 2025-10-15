@@ -8,18 +8,18 @@ import CategoryLoading from "../PlaceHolder/CategoryLoading";
 const Categories = () => {
   const [menuData, setMenuData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [mainDivVisible, setMainDivVisible] = useState(false);
 
   useEffect(() => {
     axios
       .get(AppURL.AllCategoryDetails)
       .then((response) => {
         setMenuData(response.data);
-        setIsLoading(false);
-        setMainDivVisible(true);
       })
       .catch((error) => {
         console.error("Error fetching category details:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -41,11 +41,9 @@ const Categories = () => {
 
   return (
     <>
-      {/* Show loading spinner while data is being fetched */}
-      <CategoryLoading isLoading={isLoading ? "" : "d-none"} />
+      <CategoryLoading show={isLoading} />
 
-      {/* Main category content */}
-      {mainDivVisible && (
+      {!isLoading && (
         <div>
           <Container className="text-center" fluid>
             <div className="section-title text-center mb-55">

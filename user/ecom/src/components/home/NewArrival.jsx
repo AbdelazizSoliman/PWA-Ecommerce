@@ -11,28 +11,28 @@ import { Link } from "react-router-dom";
 const NewArrival = () => {
   const [productData, setProductData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [mainDivVisible, setMainDivVisible] = useState(false);
 
   const sliderRef = useRef(null);
 
-  const next = () => sliderRef.current.slickNext();
-  const previous = () => sliderRef.current.slickPrev();
+  const next = () => sliderRef.current?.slickNext();
+  const previous = () => sliderRef.current?.slickPrev();
 
   useEffect(() => {
     axios
       .get(AppURL.ProductListByRemark("NEW"))
       .then((response) => {
         setProductData(response.data);
-        setIsLoading(false);
-        setMainDivVisible(true);
       })
       .catch((error) => {
         console.error("Error fetching new arrivals:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
   const renderProductCard = (product) => {
-    const { id, image, title, price, special_price } = product;
+    const { id, image, title, price, special_price: specialPrice } = product;
     return (
       <div key={id}>
         <Link className="text-link" to={`/productdetails/${id}`}>
@@ -40,12 +40,11 @@ const NewArrival = () => {
             <img className="center" src={image} alt={title} />
             <Card.Body>
               <p className="product-name-on-card">{title}</p>
-              {special_price === "na" ? (
+              {specialPrice === "na" ? (
                 <p className="product-price-on-card">Price: ${price}</p>
               ) : (
                 <p className="product-price-on-card">
-                  Price: <strike className="text-secondary">${price}</strike> $
-                  {special_price}
+                  Price: <strike className="text-secondary">${price}</strike> ${specialPrice}
                 </p>
               )}
             </Card.Body>
@@ -94,11 +93,9 @@ const NewArrival = () => {
 
   return (
     <>
-      {/* Loading spinner */}
-      <NewArrivalLoading isLoading={isLoading ? "" : "d-none"} />
+      <NewArrivalLoading show={isLoading} />
 
-      {/* Main content */}
-      {mainDivVisible && (
+      {!isLoading && (
         <div>
           <Container className="text-center" fluid>
             <div className="section-title text-center mb-55">
