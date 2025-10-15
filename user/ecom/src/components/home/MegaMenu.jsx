@@ -1,5 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { resolveImageUrl } from "../../utils/imageHelpers";
 
 const MegaMenu = ({ data }) => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -19,7 +20,7 @@ const MegaMenu = ({ data }) => {
           >
             <img
               className="accordionMenuIcon"
-              src={category.category_image}
+              src={resolveImageUrl(category.category_image)}
               alt={category.category_name}
             />
             &nbsp; {category.category_name}

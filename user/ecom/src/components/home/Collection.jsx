@@ -3,6 +3,7 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AppURL from "../../api/AppURL";
+import { resolveImageUrl } from "../../utils/imageHelpers";
 import CollectionLoading from "../PlaceHolder/CollectionLoading";
 
 const Collection = () => {
@@ -25,11 +26,12 @@ const Collection = () => {
 
   const renderProductCard = (product) => {
     const { id, image, title, price, special_price: specialPrice } = product;
+    const imageUrl = resolveImageUrl(image);
     return (
       <Col key={id} className="p-0" xl={3} lg={3} md={3} sm={6} xs={6}>
         <Link className="text-link" to={`/productdetails/${id}`}>
           <Card className="image-box card w-100">
-            <img className="center w-75" src={image} alt={title} />
+            <img className="center w-75" src={imageUrl} alt={title} />
             <Card.Body>
               <p className="product-name-on-card">{title}</p>
               {specialPrice === "na" ? (

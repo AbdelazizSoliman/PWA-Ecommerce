@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import AppURL from "../../api/AppURL";
+import { resolveImageUrl } from "../../utils/imageHelpers";
 import NewArrivalLoading from "../PlaceHolder/NewArrivalLoading";
 import { Link } from "react-router-dom";
 
@@ -33,11 +34,12 @@ const NewArrival = () => {
 
   const renderProductCard = (product) => {
     const { id, image, title, price, special_price: specialPrice } = product;
+    const imageUrl = resolveImageUrl(image);
     return (
       <div key={id}>
         <Link className="text-link" to={`/productdetails/${id}`}>
           <Card className="image-box card">
-            <img className="center" src={image} alt={title} />
+            <img className="center" src={imageUrl} alt={title} />
             <Card.Body>
               <p className="product-name-on-card">{title}</p>
               {specialPrice === "na" ? (

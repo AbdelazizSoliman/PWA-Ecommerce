@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AppURL from "../../api/AppURL";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { resolveImageUrl } from "../../utils/imageHelpers";
 
 const MegaMenuAll = () => {
   const [menuData, setMenuData] = useState([]);
@@ -45,7 +46,7 @@ const MegaMenuAll = () => {
               <button onClick={handleMenuItemClick} className="accordionAll">
                 <img
                   className="accordionMenuIconAll"
-                  src={category.category_image}
+                  src={resolveImageUrl(category.category_image)}
                   alt={category.category_name}
                 />
                 &nbsp; {category.category_name}

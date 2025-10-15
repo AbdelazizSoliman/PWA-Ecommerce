@@ -1,23 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Breadcrumb, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {
+  FALLBACK_PRODUCT_IMAGE,
+  normaliseImageList,
+} from "../../utils/imageHelpers";
 
 const ProductDetails = ({ data }) => {
-  const [previewImg, setPreviewImg] = useState(
-    data.productDetails[0].image_one
-  );
-
-  const {
-    title,
-    brand,
-    category,
-    subcategory,
-    price,
-    product_code,
-    special_price,
-    star,
-  } = data.productList[0];
-
   const {
     image_one,
     image_two,
@@ -29,6 +18,32 @@ const ProductDetails = ({ data }) => {
     short_description,
     long_description,
   } = data.productDetails[0];
+
+  const galleryImages = useMemo(
+    () =>
+      normaliseImageList(
+        [image_one, image_two, image_three, image_four],
+        FALLBACK_PRODUCT_IMAGE
+      ),
+    [image_one, image_two, image_three, image_four]
+  );
+
+  const [previewImg, setPreviewImg] = useState(galleryImages[0]);
+
+  useEffect(() => {
+    setPreviewImg(galleryImages[0]);
+  }, [galleryImages]);
+
+  const {
+    title,
+    brand,
+    category,
+    subcategory,
+    price,
+    product_code,
+    special_price,
+    star,
+  } = data.productList[0];
 
   const PriceOption = (price, special_price) => {
     if (special_price === "na") {
@@ -43,8 +58,8 @@ const ProductDetails = ({ data }) => {
     }
   };
 
-  const handleImageClick = (event) => {
-    setPreviewImg(event.target.getAttribute("src"));
+  const handleImageClick = (imageUrl) => {
+    setPreviewImg(imageUrl);
   };
 
   const ColorOption =
@@ -99,30 +114,28 @@ const ProductDetails = ({ data }) => {
               <img
                 id="previewImg"
                 className="bigimage"
-                src={previewImg}
-                alt="Product Preview"
+                src={previewImg || FALLBACK_PRODUCT_IMAGE}
+                alt={title}
               />
               <Container className="my-3">
                 <Row>
-                  {[image_one, image_two, image_three, image_four].map(
-                    (img, i) => (
-                      <Col
-                        key={i}
-                        className="p-0 m-0"
-                        md={3}
-                        lg={3}
-                        sm={3}
-                        xs={3}
-                      >
-                        <img
-                          onClick={handleImageClick}
-                          className="w-100 smallimage product-sm-img"
-                          src={img}
-                          alt={`Product Thumbnail ${i + 1}`}
-                        />
-                      </Col>
-                    )
-                  )}
+                  {galleryImages.map((img, i) => (
+                    <Col
+                      key={`${img}-${i}`}
+                      className="p-0 m-0"
+                      md={3}
+                      lg={3}
+                      sm={3}
+                      xs={3}
+                    >
+                      <img
+                        onClick={() => handleImageClick(img)}
+                        className="w-100 smallimage product-sm-img"
+                        src={img}
+                        alt={`${title} thumbnail ${i + 1}`}
+                      />
+                    </Col>
+                  ))}
                 </Row>
               </Container>
             </Col>

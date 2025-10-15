@@ -3,6 +3,7 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AppURL from "../../api/AppURL";
+import { resolveImageUrl } from "../../utils/imageHelpers";
 import CategoryLoading from "../PlaceHolder/CategoryLoading";
 
 const Categories = () => {
@@ -25,12 +26,13 @@ const Categories = () => {
 
   const renderCategoryCard = (category) => {
     const { category_name: name, category_image: image } = category;
+    const imageUrl = resolveImageUrl(image);
     return (
       <Col key={name} className="p-0" xl={2} lg={2} md={2} sm={6} xs={6}>
         <Link className="text-link" to={`/productcategory/${name}`}>
           <Card className="h-100 w-100 text-center">
             <Card.Body>
-              <img className="center" src={image} alt={name} />
+              <img className="center" src={imageUrl} alt={name} />
               <h5 className="category-name">{name}</h5>
             </Card.Body>
           </Card>
