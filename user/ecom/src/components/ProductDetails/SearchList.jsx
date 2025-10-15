@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import { resolveImageUrl } from "../../utils/imageHelpers";
 
 const SearchList = ({ ProductData, SearchKey }) => {
   const MyView = ProductData.map((ProductList, i) => {
@@ -12,7 +13,7 @@ const SearchList = ({ ProductData, SearchKey }) => {
             <Card className="image-box card w-100">
               <img
                 className="center w-75"
-                src={ProductList.image}
+                src={resolveImageUrl(ProductList.image)}
                 alt="product"
               />
               <Card.Body>
@@ -32,7 +33,7 @@ const SearchList = ({ ProductData, SearchKey }) => {
             <Card className="image-box card w-100">
               <img
                 className="center w-75"
-                src={ProductList.image}
+                src={resolveImageUrl(ProductList.image)}
                 alt="product"
               />
               <Card.Body>

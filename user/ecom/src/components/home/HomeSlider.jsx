@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { resolveImageUrl } from "../../utils/imageHelpers";
 
 const HomeSlider = ({ data }) => {
   if (!data || data.length === 0) {
@@ -52,7 +53,7 @@ const HomeSlider = ({ data }) => {
         <div key={sliderItem.id || index}>
           <img
             className="slider-img"
-            src={sliderItem.slider_image}
+            src={resolveImageUrl(sliderItem.slider_image)}
             alt={sliderItem.title || `Promotional banner ${index + 1}`}
           />
         </div>
